@@ -1,0 +1,15 @@
+{
+  "name": "likelion-frontend-subject1",
+  "version": "1.0.0",
+  "description": "프론트엔드 교육과정 과제 1을 위한 저장소입니다.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
