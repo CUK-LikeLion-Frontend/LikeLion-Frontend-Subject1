@@ -29,7 +29,7 @@
             <h3>분/시 변환기</h3>
             <hr />
             <div>
-              <label>분: </label>
+              <label htmlFor="minute">분: </label>
               <input
                 id="minute"
                 value={inverted ? value * 60 : value}
@@ -40,7 +40,7 @@
               />
             </div>
             <div>
-              <label>시: </label>
+              <label htmlFor="hour">시: </label>
               <input
                 id="hour"
                 value={inverted ? value : Math.round(value / 60)}
