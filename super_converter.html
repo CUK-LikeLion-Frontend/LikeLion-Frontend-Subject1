@@ -9,6 +9,22 @@
     <div id="root" />
 
     <script type="text/babel">
+      function Button(props) {
+        return (
+          <button
+            style={{
+              backgroundColor: props.bgColor,
+              color: "white",
+              border: "none",
+              borderRadius: "5px",
+            }}
+            onClick={props.onClick}
+          >
+            {props.text}
+          </button>
+        );
+      }
+
       function MinuteChange() {
         const [value, setValue] = React.useState(0);
         const [inverted, setInverted] = React.useState(false);
@@ -52,28 +68,12 @@
             </div>
             <br />
             <div>
-              <button
-                style={{
-                  backgroundColor: "red",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-                onClick={reset}
-              >
-                리셋
-              </button>
-              <button
-                style={{
-                  backgroundColor: "skyblue",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
+              <Button text="리셋" bgColor="red" onClick={reset} />
+              <Button
+                text={inverted ? "시=>분" : "분=>시"}
+                bgColor="skyblue"
                 onClick={onInvert}
-              >
-                {inverted ? "시=>분" : "분=>시"}
-              </button>
+              />
             </div>
           </div>
         );
@@ -121,28 +121,12 @@
             </div>
             <br />
             <div>
-              <button
-                style={{
-                  backgroundColor: "red",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-                onClick={reset}
-              >
-                리셋
-              </button>
-              <button
-                style={{
-                  backgroundColor: "skyblue",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
+              <Button text="리셋" bgColor="red" onClick={reset} />
+              <Button
+                text={inverted ? "마일=>킬로미터" : "킬로미터=>마일"}
+                bgColor="skyblue"
                 onClick={onInvert}
-              >
-                {inverted ? "마일=>킬로미터" : "킬로미터=>마일"}
-              </button>
+              />
             </div>
           </div>
         );
