@@ -15,7 +15,8 @@
               backgroundColor: props.bgColor,
               color: "white",
               border: "none",
-              borderRadius: "5px",
+              marginRight: "3px",
+              borderRadius: "10px",
             }}
             onClick={props.onClick}
           >
@@ -96,27 +97,43 @@
           <div>
             <h3>킬로미터/마일 변환기</h3>
             <hr />
-            <div>
-              <label htmlFor="km">킬로미터: </label>
-              <input
-                id="km"
-                value={inverted ? value * 1.61 : value}
-                placeholder="kilometer"
-                type="number"
-                onChange={onChange}
-                disabled={inverted}
-              />
-            </div>
-            <div>
-              <label htmlFor="mile">마일: </label>
-              <input
-                id="mile"
-                value={inverted ? value : value * 0.62}
-                placeholder="Miles"
-                type="number"
-                onChange={onChange}
-                disabled={!inverted}
-              />
+            <div
+              style={{
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <label htmlFor="km">킬로미터: </label>
+                <input
+                  id="km"
+                  value={inverted ? value * 1.61 : value}
+                  placeholder="kilometer"
+                  type="number"
+                  onChange={onChange}
+                  disabled={inverted}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <label htmlFor="mile">마일: </label>
+                <input
+                  id="mile"
+                  value={inverted ? value : value * 0.62}
+                  placeholder="Miles"
+                  type="number"
+                  onChange={onChange}
+                  disabled={!inverted}
+                />
+              </div>
             </div>
             <br />
             <div>
@@ -167,11 +184,11 @@
                   borderRadius: "5px",
                 }}
               >
-                <option value="0">분/시 변환기</option>
-                <option value="1">킬로미터/마일 변환기</option>
+                <option value="0">킬로미터/마일 변환기</option>
+                <option value="1">분/시 변환기</option>
               </select>
-              {index === "0" ? <MinuteChange /> : null}
-              {index === "1" ? <KiloChange /> : null}
+              {index === "0" ? <KiloChange /> : null}
+              {index === "1" ? <MinuteChange /> : null}
             </div>
           </div>
         );

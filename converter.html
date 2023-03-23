@@ -25,55 +25,74 @@
         };
 
         return (
-          <div>
-            <h3>분/시 변환기</h3>
-            <hr />
-            <div>
-              <label htmlFor="minute">분: </label>
-              <input
-                id="minute"
-                value={inverted ? value * 60 : value}
-                placeholder="Minutes"
-                type="number"
-                onChange={onChange}
-                disabled={inverted}
-              />
-            </div>
-            <div>
-              <label htmlFor="hour">시: </label>
-              <input
-                id="hour"
-                value={inverted ? value : Math.round(value / 60)}
-                placeholder="Hours"
-                type="number"
-                onChange={onChange}
-                disabled={!inverted}
-              />
-            </div>
-            <br />
-            <div>
-              <button
-                style={{
-                  backgroundColor: "red",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-                onClick={reset}
-              >
-                리셋
-              </button>
-              <button
-                style={{
-                  backgroundColor: "skyblue",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "5px",
-                }}
-                onClick={onInvert}
-              >
-                {inverted ? "시=>분" : "분=>시"}
-              </button>
+          <div
+            style={{
+              backgroundImage: "url(newjeans.jpg)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <div
+              style={{
+                border: "3px dotted white",
+                padding: "90px",
+                backgroundColor: "lightgreen",
+              }}
+            >
+              <h3>분/시 변환기</h3>
+              <hr />
+              <div>
+                <label htmlFor="minute">분: </label>
+                <input
+                  id="minute"
+                  value={inverted ? value * 60 : value}
+                  placeholder="Minutes"
+                  type="number"
+                  onChange={onChange}
+                  disabled={inverted}
+                />
+              </div>
+              <div>
+                <label htmlFor="hour">시: </label>
+                <input
+                  id="hour"
+                  value={inverted ? value : Math.round(value / 60)}
+                  placeholder="Hours"
+                  type="number"
+                  onChange={onChange}
+                  disabled={!inverted}
+                />
+              </div>
+              <br />
+              <div>
+                <button
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                  onClick={reset}
+                >
+                  리셋
+                </button>
+                <button
+                  style={{
+                    backgroundColor: "skyblue",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                  onClick={onInvert}
+                >
+                  {inverted ? "시=>분" : "분=>시"}
+                </button>
+              </div>
             </div>
           </div>
         );
