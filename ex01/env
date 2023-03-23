@@ -1,0 +1,6 @@
+CUK1 = "LIKE"
+echo {CUK1}
+CUK2 = "Lion"
+echo {CUK2}
+
+
