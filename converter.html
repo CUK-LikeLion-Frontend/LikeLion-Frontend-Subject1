@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+
+		function App() {
+			const [count, setCount] = React.useState(1);
+			const [invert, setInvert] = React.useState("Minute to Hour");
+			const [minute, setMinute] = React.useState();
+			const [hour, setHour] = React.useState();
+
+			
+
+			const changeMinute = event1 => {
+				setMinute(event1.target.value);
+				if (event1.target.value%60 <30)
+				{setHour(Math.trunc((event1.target.value)/60))}
+				else if (event.target.value%60 >= 30)
+				{setHour(Math.trunc((event1.target.value)/60)+1)}
+			}
+
+			const changeHour = event2 => {
+				setHour(event2.target.value);
+				setMinute((event2.target.value)*60)
+
+			}
+
+			const handleClick = () => {
+					setCount(count+1);
+
+					if (count%2 === 0){
+					setInvert("Minute to Hour");
+					}
+					else if (count%2 === 1){
+					setInvert("Hour to Minute");
+					}
+				};
+
+            const reset = () => { 
+				setMinute("");
+				setHour("");
+			}
+
+
+			return (
+				<div>
+					<h3>Minutes/Hours Converter</h3>
+					<div>
+						<label>Minutes: </label>
+						<input placeholder="0" type="number" value={minute} onChange={changeMinute} disabled={(count%2 === 0)? true : false}/> 
+					</div>
+					<div>
+						<label>Hours&nbsp;&nbsp;&nbsp;: </label>
+						<input placeholder="0" type="number" value={hour} onChange={changeHour} disabled={(count%2 === 1)? true : false}/>
+					</div>
+					<br />
+					<div>
+						<button onClick={reset}>Reset</button>
+						<button onClick={handleClick}>{invert}</button>
+					</div>
+				</div>
+			);
+		}
+		ReactDOM.render(<App />, root);
+	</script>
+</html>
