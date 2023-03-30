@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+		function App() {
+			const [inverted, setInverted] = React.useState(false);
+            const [min, setMin] = React.useState(0);
+            const [hour, setHour] = React.useState(0);
+            const [buttonTitle, setBT] = React.useState("분=>시");
+
+            const handleMinChange = (e) => {
+               setMin(e.target.value);
+               setHour(Math.round(e.target.value/60));
+            }
+
+            const handleHourChange = (e) => {
+                setHour(e.target.value);
+                setMin(e.target.value*60);
+            }
+
+            const reset = () => { 
+                setMin(0);
+                setHour(0);
+            }
+
+            const converting = (e) => {
+                if (inverted == false){
+                    setBT("시=>분");
+                    setInverted(true);
+                }
+                else{
+                    setBT("분=>시");
+                    setInverted(false);
+                }
+				setMin(0);
+				setHour(0);
+            }
+            
+			return (
+				<div>
+					<h3>분/시 변환기</h3>
+					<div>
+						<label>분: </label>
+						<input value={min} disabled={!(inverted) ? "" : "disabled"} type="number" onChange={handleMinChange} />
+					</div>
+					<div>
+						<label>시: </label>
+						<input value={hour} disabled={(inverted) ? "" : "disabled"} type="number" onChange={handleHourChange} />
+					</div>
+					<br />
+					<div>
+						<button onClick={reset}>리셋</button>
+						<button onClick={converting}>{buttonTitle}</button>
+					</div>
+				</div>
+			);
+		}
+		ReactDOM.render(<App />, root);
+	</script>
+</html>
