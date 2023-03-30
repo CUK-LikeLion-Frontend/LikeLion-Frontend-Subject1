@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+		function App() {
+			const [inverted, setInverted] = React.useState(false); // 분 입력창 활성화, 시 입력창 비 활성화
+			const [value, setValue] = React.useState(0);
+
+      const valueChange = (e) => {
+        setValue(e.target.value);
+      };
+			
+			// 리셋 버튼 관련 함수
+			// 눌렀을 때 분과 시를 0으로 초기화
+			const reset = () => {
+				setValue(0);
+			};
+
+			// 변환기 버튼 관련 함수
+			const invert = () => {
+				reset(); // 안하면 변환버튼 눌렀을 때 분~시 변환했던 값이 자동으로 업데이트 됨
+				setInverted(!inverted);
+			};
+
+			return (
+				<div>
+					<h3>분/시 변환기</h3>
+					<div>
+						<label>분: </label>
+						<input
+							placeholder="Minutes"
+							type="number"
+							value={inverted ? value * 60 : value} //  inverted === true (분 비활, 시 활) , 분 비활이고 시 활일 때 value*60
+							onChange={valueChange} 
+							// inverted === true 이면 시 입력값이 변경되면 분 상태값 업데이트, 분 입력값이 변경되었을 때 분 상태값 업데이트
+							disabled={inverted} // inverted === true (분 비활, 시 활)
+						/>
+					</div>
+					<div>
+						<label>시: </label>
+						<input
+    					placeholder="Hours"
+    					type="number"
+    					value={inverted ? value : Math.round(value / 60)} // inverted == true (분 비활, 시 활) , 분 활이고 시 비활일 때 round(value/60)
+    					onChange={valueChange} 
+    					disabled={!inverted} // inverted === false (분 활, 시 비활)
+						/>
+					</div>
+					<br />
+					<div>
+						<button onClick={reset}>리셋</button>
+						<button onClick={invert}>{inverted ? '시=>분':'분=>시'}</button> 
+					</div>
+				</div>
+			);
+		}
+		ReactDOM.render(<App />, root);
+	</script>
+</html>
