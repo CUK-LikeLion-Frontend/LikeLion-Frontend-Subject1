@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<!--react파일 삽입해서 설치하지 않고 사용-->
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	
+	<script type="text/babel">
+		function App() {
+            const [times, toTimes] = React.useState(0); //시간 state 지정
+			const [inverted, setInverted] = React.useState(false);// 전환
+			
+            const onChange = (event) => {
+                toTimes(event.target.value);
+				//onClick했을 때 실행할 이벤트 함수 지정
+				//사용자가 입력해서 바뀐 input --> target
+            };
+			
+            const reset = () => toTimes(0);
+    
+            const invert = () => {
+				reset();
+				setInverted((current)=>!current);//전환 버튼을 누르면 값을 반전 시킴 t/f
+			};
+			return (
+				<div>
+					<h3>분/시 변환기</h3>
+					<div>
+						<label htmlFor="minute">분: </label> 
+						<input 
+							onChange={onChange} 
+							type="number" 
+							id="minute" 
+							placeholder="Minutes"
+							value={inverted === false ? times : times * 60}
+							disabled={inverted === true} //invertes 초기값은 false인데 minutes는 true일때만 disabled 즉 초기상태는 활성화
+						/>
+					</div>
+					<div>
+						<label htmlFor="hour">시: </label>
+						<input 
+							onChange={onChange} 
+							type="number" 
+							id="hour" 
+							placeholder="Hours"
+							value={inverted === true ? times : Math.round(times / 60)}
+							disabled={inverted === false} //inverted가 false면 hours는 disabled(비활성화)
+						/>
+					</div>
+					<br />
+					<div>
+						<button onClick={reset}>리셋</button>
+						<button onClick={invert}>{inverted?"분=>시":"시=>분"}</button>
+					</div>
+				</div>
+			);
+		};
+		const root = document.getElementById("root");
+		ReactDOM.render(<App />, root);
+	</script>
+</html>
