@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+            .buttonWrapper {
+                display: inline;
+            }
+            button {
+                cursor: pointer;
+                border: none;
+                border-radius: 4px;
+                padding: 5px;
+                margin: 5px;
+            }
+            .resetButton {
+                background-color: #ffdddd;
+            }
+            .convertButton {
+                background-color: #eeddff;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="root"></div>
+    </body>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        const CustomButton = ({ buttonType, resetOnclick, convertOnclick }) => {
+            console.log(buttonType);
+            return (
+                <div className="buttonWrapper">
+                    {buttonType === 'reset' && (
+                        <button className="resetButton" onClick={resetOnclick}>
+                            reset
+                        </button>
+                    )}
+                    {buttonType === 'convert' && (
+                        <button className="convertButton" onClick={convertOnclick}>
+                            invert
+                        </button>
+                    )}
+                </div>
+            );
+        };
+
+        const MinuteHourConverter = () => {
+            const [minute, setMinute] = React.useState('');
+            const [hour, setHour] = React.useState('');
+            const [inverted, setInverted] = React.useState(false);
+
+            const reset = () => {
+                setMinute(0);
+                setHour(0);
+            };
+
+            console.log(inverted, minute);
+            const invert = () => {
+                setInverted((cur) => !cur);
+                if (inverted === false) {
+                    setHour(0);
+                } else {
+                    setMinute(0);
+                }
+            };
+            return (
+                <div>
+                    <h2>분/시 변환기</h2>
+                    <div>
+                        <label for="minute">분: </label>
+                        <input
+                            id="minute"
+                            type="number"
+                            placeholder="Minutes"
+                            value={inverted === false ? minute : hour * 60}
+                            onChange={(e) => {
+                                setMinute(e.target.value);
+                            }}
+                            disabled={inverted === true}
+                        ></input>
+                    </div>
+                    <div>
+                        <label for="hour">시: </label>
+                        <input
+                            id="hour"
+                            type="number"
+                            placeholder="hour"
+                            value={inverted === true ? hour : Math.round(minute / 60)}
+                            onChange={(e) => setHour(e.target.value)}
+                            disabled={inverted === false}
+                        ></input>
+                    </div>
+                    <br />
+                    <div>
+                        <CustomButton buttonType="reset" resetOnclick={reset}></CustomButton>
+                        <CustomButton buttonType="convert" convertOnclick={invert}></CustomButton>
+                    </div>
+                </div>
+            );
+        };
+        const KilloMileConverter = () => {
+            const [killometer, setKillometer] = React.useState('');
+            const [mile, setMile] = React.useState('');
+            const [invert, setInvert] = React.useState(true);
+
+            const reset = () => {
+                setKillometer(0);
+                setMile(0);
+            };
+
+            const convert = () => {
+                console.log('check');
+                setInvert((cur) => !cur);
+                if (invert === true) {
+                    setKillometer(0);
+                } else {
+                    setMile(0);
+                }
+            };
+            return (
+                <div>
+                    <h2>킬로미터/마일 변환기</h2>
+
+                    <div>
+                        <label for="killometer">킬로미터: </label>
+                        <input
+                            id="killometer"
+                            type="number"
+                            placeholder="Killometer"
+                            value={invert === true ? killometer : mile * 1.609346}
+                            onChange={(e) => setKillometer(e.target.value)}
+                            disabled={invert === false}
+                        ></input>
+                    </div>
+                    <div>
+                        <label for="mile">마일: </label>
+                        <input
+                            id="mile"
+                            type="number"
+                            placeholder="Mile"
+                            value={invert === false ? mile : killometer * 0.621371}
+                            onChange={(e) => {
+                                setMile(e.target.value);
+                            }}
+                            disabled={invert === true}
+                        ></input>
+                    </div>
+                    <br />
+                    <div>
+                        <CustomButton buttonType="reset" resetOnclick={reset}></CustomButton>
+                        <CustomButton buttonType="convert" convertOnclick={convert}></CustomButton>
+                    </div>
+                </div>
+            );
+        };
+
+        function App() {
+            const [index, setIndex] = React.useState('0');
+            console.log(index + '  ' + typeof index);
+            return (
+                <div>
+                    <h2>변환기</h2>
+                    <select value={index} onChange={(e) => setIndex(e.target.value)}>
+                        <option value={'0'} selected>
+                            분/시 변환기
+                        </option>
+                        <option value={'1'}>킬로미터/마일 변환기</option>
+                    </select>
+                    <hr></hr>
+                    {index === '0' && <MinuteHourConverter></MinuteHourConverter>}
+                    {index === '1' && <KilloMileConverter></KilloMileConverter>}
+                </div>
+            );
+        }
+
+        ReactDOM.render(<App />, root);
+    </script>
+</html>
