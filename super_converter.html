@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function Btn({text,color,click,reset,onFlip}){
+      return (
+        <button
+        onClick={click ? reset : onFlip}
+        style={{
+          //width:"4rem",
+          border:"none",
+          color:"#404241",
+          borderRadius: 5,
+          backgroundColor: color ? "rgb(106, 213, 138)" : "#6abde4"
+        }}>{text}</button>
+      );
+    }
+    function App() {
+      const [unit, setUnit] = React.useState(0); 
+      const [inverted, setinverted] = React.useState(true);
+      const onChange = (event) => {
+        setUnit(event.target.value); // 데이터를 업데이트
+      };
+      const reset = () => setUnit(0);
+      const onFlip = () => {
+        reset();
+        setinverted((current) => !current);
+      };
+      /*htmlFor는 React에서 사용하는 반복문이다 html에서는 for를 사용한다
+        value 부분에서 unit를 60으로 나눠서 시간으로 출력
+        html 파일과 달리 react에서는 class가 아닌 className을 사용
+        Math.round를 사용하면 반올림가능
+        onchange는 폼 필드가 변결될 때 이벤트를 발생시킴
+      */
+      return (
+        <div>
+          <h3>분/시 변환기</h3>
+          <div>
+            <label htmlFor="minutes">분: </label>
+            <input
+              value={inverted ? unit * 60 : unit}
+              id="minutes"
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              disabled={inverted}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">시: </label>
+            <input
+              id="hours"
+              value={inverted ? unit : Math.round(unit / 60)}
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={!inverted}
+            />
+          </div>
+          <Btn text="리셋" click={true} color={true} reset={reset}/>
+          <Btn text={inverted ? "시=>분":"분=>시"} click={false} color={false} onFlip={onFlip} />
+         </div>
+      );
+    }  
+    
+    function KmtoMiles() {
+      const [unit, setUnit] = React.useState(0);
+      const [inverted, setinverted] = React.useState(false);
+      const onChange = (event) => {
+        setUnit(event.target.value); // 데이터를 업데이트
+      };
+      const reset = () => setUnit(0);
+      const onFlip = () => {
+        reset();
+        setinverted((current) => !current);  //전환 버튼
+      };
+      
+      return (
+        <div>
+          <h3>Km/miles 변환기</h3> 
+          <div>
+            <label htmlFor="Miles">Miles: </label>
+            <input
+              value={inverted ? unit * 1.609 : unit}
+              id="miles"
+              placeholder="miles"
+              type="number"
+              onChange={onChange}
+              disabled={inverted}
+            />
+          </div>
+          <div>
+            <label htmlFor="Km">Km: </label>
+            <input
+              id="Km"
+              value={inverted ? unit : Math.round(unit / 1.609)}
+              placeholder="Km"
+              type="number"
+              onChange={onChange}
+              disabled={!inverted}
+            />
+          </div>
+          <Btn text="리셋" click={true} color={true} reset={reset}/>
+          <Btn text={inverted ? "마일=>킬로미터":"킬로미터=>마일"} click={false} color={false} onFlip={onFlip} />
+        </div>
+      );
+    }  
+    
+    function Super_Converter() {
+      const [index, setIndex] = React.useState("xx");
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+      return (
+        <div>
+          <h3>Super Converter</h3>
+          <select value={index} onChange={onSelect}>
+            <option value="0">변환기를 선택</option>
+            <option value="1">Minutes / Hours </option>
+            <option value="2">Km / Miles</option>
+          </select>
+          <hr />
+          {index === "1" ? <App /> : null}
+          {index === "2" ? <KmtoMiles /> : null}
+        </div>
+      );
+    }
+
+    const root = document.getElementById("root");
+    ReactDOM.render(<Super_Converter />, root);
+  </script>
+</html>
