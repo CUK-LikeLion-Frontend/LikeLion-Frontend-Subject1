@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>	
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+		function App() {
+			//inverted : data, setInverted : modifier
+			// modifier 함수를 가지고 state(데이터)를 변경할 때, 컴포넌트 재생성(새로운 값으로 리렌더링)
+			const [inverted, setInverted] = React.useState(false);//inverted 초기값 false
+			const [minutes, setMinutes] = React.useState(0);//minutes초기값 0
+
+			// event에 접근, target. value == input을 가져옴
+			const m_reaction = (event) => {
+				setMinutes(event.target.value);
+			};
+
+			//  () = >  ======= function () { return } 과 같음
+			const reset = () => setMinutes(0);
+			const invert = () => setInverted((current) => !current);
+			
+			return (
+				<div>
+					<h3>분/시 변환기</h3>
+					<div>
+						<label>분: </label>
+						<input 
+						value={inverted ? minutes * 60 : minutes}
+						// inverted가 참이면 minutes * 60, 거짓이면 minutes
+						onChange={m_reaction}
+						disabled={inverted}
+						placeholder="Minutes"
+						type="number"
+						/>
+					</div>
+					<div>
+						<label>시: </label>
+						<input
+						value={inverted ? minutes : Math.round(minutes / 60)}
+						onChange={m_reaction}
+						disabled={!inverted}
+						 placeholder="Hours"
+						type="number" />
+					</div>
+					<br />
+					<div>
+						<button onClick={reset}>리셋</button>
+						<button onClick={invert}>{inverted ? "분=>시" : "시=>분"}</button>
+					</div>
+				</div>
+			);
+		}
+		// React elemnet를 가지고 HTML로 만들어 배치한다. (사용자에게 보여줌)
+		ReactDOM.render(<App />, root); // <App /> 을 root 안에 render.
+	</script>	
+</html>
