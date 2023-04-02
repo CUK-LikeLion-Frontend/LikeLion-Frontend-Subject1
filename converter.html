@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <div id = "root"></div>
+
+</body>
+<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
+<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel"> 
+
+  const root = document.getElementById("root");
+  
+  function App() {
+    const [amount, setAmount] = React.useState(0);
+    const [inverted, setInverted] = React.useState(false);
+
+    const onChange = () => {
+      setAmount(event.target.value);
+    }; // input  에 입력한 값을 state 에 전달하는 함수
+    const reset = () => setAmount(0);
+    const onFlip = () => setInverted((current) => !current); //현재의 값을 받아서 그 반대의 값을 내놓음
+    return (
+      <div>
+      <h1 className="hi">분/시 변환기 </h1> 
+      <div><label htmlFor="minutes">분: </label>
+      <input 
+      value={inverted ? amount * 60 : amount} //인풋값에 minutes 를 넣어줌
+      id="minutes"
+      placeholder="Minutes" 
+      type="number"
+      onChange={onChange} //인풋에 변화가 생기면 onChange 함수를 실행시킴
+      disabled={inverted === true} // = flipped
+  
+       /> </div>
+   
+      <div>
+      <label htmlFor="hours">시: </label>
+      <input 
+      value={inverted ?  amount : Math.round(amount/60)} // 이건 minutes 에 썼을때만 일어나야 함
+      id = "hours" 
+      placeholder="Hours" 
+      type="number"
+      disabled={inverted === false} //(=!flipped) flip 의 값이 false 이면 hours 는 disabled 되어야 한다는 뜻 
+      onChange={onChange} //인풋에 변화가 생기면 onChange 함수를 실행시킴
+      
+      /></div>
+      <button onClick={reset}>리셋</button>
+      <button onClick={onFlip}>분=&gt;시</button>
+
+      </div>
+      );
+  }; 
+  ReactDOM.render(<App />, root); // 리액트 요소를 html 로 만들어서 배치한다.
+  
+
+</script>
+</html> 
