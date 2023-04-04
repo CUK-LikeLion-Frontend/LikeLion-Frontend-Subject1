@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+
+		function App() {
+			const [value, setValue] = React.useState("0");
+
+
+			const handleChange = (event) => {
+
+ 			 	setValue(event.target.value);
+
+			};
+		
+
+			return (
+					
+					<div>
+						<div>
+						<h1>Converter</h1>
+						<select value={value} onChange={handleChange}>
+							<option value="0">Time Converter</option>
+							<option value="1">Distance Converter</option>
+						</select>
+						</div>
+						<hr />
+						<div>
+							{value === "0" ? <MinuteTimeConverter />: null}
+    						{value === "1" ? <KilometerMileConverter /> : null}
+						</div>
+					</div>
+
+			);
+		};
+
+		
+		const KilometerMileConverter = (props) => {
+			const [count2, setCount2] = React.useState(1);
+			const [invert2, setInvert2] = React.useState("Mile to Kilometer");
+			const [kilo, setKilo] = React.useState();
+			const [mile, setMile] = React.useState();
+
+
+			
+
+			const changeKilo = event3 => {
+				setKilo(event3.target.value);
+				setMile((event3.target.value)*0.621)
+			}
+
+			const changeMile = event4 => {
+				setMile(event4.target.value);
+				setKilo((event4.target.value)*1.609);
+
+			}
+
+			const handleClick2 = () => {
+					setCount2(count2+1);
+					if (count2%2 === 0){
+					setInvert2("Mile to Kilometer");
+					}
+					else if (count2%2 === 1){
+					setInvert2("Kilometer to Mile");
+					}
+			};
+
+			const reset2 = () => { 
+				setKilo("");
+				setMile("");
+			}
+
+			return (
+				<div>
+					<h3>Kilometer/Mile Converter</h3>
+					<div>
+						<label>Kilometer: </label>
+						<input placeholder="0" type="number" value={kilo} onChange={changeKilo} disabled={(count2%2 === 0)? true : false}/> 
+					</div>
+					<div>
+						<label>Mile&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </label>
+						<input placeholder="0" type="number" value={mile} onChange={changeMile} disabled={(count2%2 === 1)? true : false}/>
+					</div>
+					<div>
+						<Btn text="Reset" onClickBtn={reset2} />
+						<Btn text={invert2} onClickBtn={handleClick2} />
+					</div>
+				</div>
+			);
+			
+		}
+
+		const MinuteTimeConverter = () => {
+			const [count, setCount] = React.useState(1);
+			const [invert, setInvert] = React.useState("Hour to Minute");
+			const [minute, setMinute] = React.useState();
+			const [hour, setHour] = React.useState();
+
+			
+
+			const changeMinute = event1 => {
+				setMinute(event1.target.value);
+				if (event1.target.value%60 <30)
+				{setHour(Math.trunc((event1.target.value)/60))}
+				else if (event.target.value%60 >= 30)
+				{setHour(Math.trunc((event1.target.value)/60)+1)}
+			}
+
+			const changeHour = event2 => {
+				setHour(event2.target.value);
+				setMinute((event2.target.value)*60)
+
+			}
+			const handleClick = () => {
+					setCount(count+1);
+					if (count%2 === 0){
+					setInvert("Hour to Minute");
+					}
+					else if (count%2 === 1){
+					setInvert("Minute to Hour");
+					}
+			};
+
+			const reset = () => { 
+				setMinute("");
+				setHour("");
+			}
+
+			return (
+				<div>
+					<h3>Minutes/Hours Converter</h3>
+					<div>
+						<label>Minutes: </label>
+						<input placeholder="0" type="number" value={minute} onChange={changeMinute} disabled={(count%2 === 0)? true : false}/> 
+					</div>
+					<div>
+						<label>Hours&nbsp;&nbsp;&nbsp;: </label>
+						<input placeholder="0" type="number" value={hour} onChange={changeHour} disabled={(count%2 === 1)? true : false}/>
+					</div>
+					<div>
+						<Btn text="Reset" onClickBtn={reset} />
+						<Btn text={invert} onClickBtn={handleClick} />
+					</div>	
+				</div>
+			);
+		}
+
+		const Btn = ({text, onClickBtn}) => {
+
+			return(
+				<button style = 
+					{text=="Reset" ? 
+
+					{backgroundColor: "#FF4500",
+      				color: "white",
+					border: 0,
+      				padding: "5px 10px",
+					margin: "10px",
+      				borderRadius:5} 
+					: 
+					{backgroundColor:"#87CEEB",
+					color: "white",
+					border: 0,
+      				padding: "5px 10px",
+					margin: "10px",
+      				borderRadius:5
+					}
+				} onClick={onClickBtn}>{text}</button>
+			)
+		}
+
+		ReactDOM.render(<App />, root);
+	</script>
+</html>
