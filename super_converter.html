@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+	function Button({text, btn, state}){
+        return <button
+        onClick = {btn}
+        style = {{
+            backgroundColor: state ? "#FA5858":"#00BFFF",
+            color: "white",
+            border: 0,
+      			padding: "5px 10px",
+      			borderRadius:10
+        }}>{text}</button>
+    }
+
+
+	function Time(){
+		const [inverted, setInverted] = React.useState(false); // 분 입력창 활성화, 시 입력창 비 활성화
+		const [value, setValue] = React.useState(0);
+
+        const valueChange = (e) => {
+          setValue(e.target.value);
+         };
+			
+		// 리셋 버튼 관련 함수
+		// 눌렀을 때 분과 시를 0으로 초기화
+		const reset = () => {
+			setValue(0);
+		};
+
+		// 변환기 버튼 관련 함수
+		const invert = () => {
+			reset(); // 안하면 변환버튼 눌렀을 때 분~시 변환했던 값이 자동으로 업데이트 됨
+			setInverted(!inverted);
+		};
+
+		return (
+			<div>
+				<h3>분/시 변환기</h3>
+				<div>
+					<label>분: </label>
+					<input
+						placeholder="Minutes"
+						type="number"
+						value={inverted ? value * 60 : value} //  inverted === true (분 비활, 시 활) , 분 비활이고 시 활일 때 value*60
+						onChange={valueChange} 
+						// inverted === true 이면 시 입력값이 변경되면 분 상태값 업데이트, 분 입력값이 변경되었을 때 분 상태값 업데이트
+						disabled={inverted} // inverted === true (분 비활, 시 활)
+					/>
+				</div>
+				<div>
+					<label>시: </label>
+					<input
+    			    	placeholder="Hours"
+    					type="number"
+    					value={inverted ? value : Math.round(value / 60)} // inverted == true (분 비활, 시 활) , 분 활이고 시 비활일 때 round(value/60)
+    					onChange={valueChange} 
+    					disabled={!inverted} // inverted === false (분 활, 시 비활)
+						/>
+				</div>
+				<br />
+				<div>
+          <Button text="리셋" btn={reset} state={true}/>
+           <Button text={inverted ? '분=>시':'시=>분'} btn={invert} state={false}/>
+				</div>
+			</div>
+		);
+	}
+
+	function Unit(){
+		const [inverted, setInverted] = React.useState(false); 
+		const [value, setValue] = React.useState(0);
+
+        const valueChange = (e) => {
+            setValue(e.target.value);
+        };
+			
+		const reset = () => {
+			setValue(0);
+		};
+
+		const invert = () => {
+			reset(); 
+			setInverted(!inverted);
+		};
+
+		return (
+			<div>
+				<h3>킬로미터/마일 변환기</h3>
+				<div>
+					<label>킬로미터: </label>
+						<input
+							placeholder="Kilometers"
+							type="number"
+							value={inverted ? value * 0.6211371 : value} 
+							onChange={valueChange} 
+							disabled={inverted} 
+						/>
+				</div>
+				<div>
+					<label>마&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;일: </label>
+					<input
+    					placeholder="Miles"
+    					type="number"
+    					value={inverted ? value : value / 0.621371} 
+    					onChange={valueChange} 
+    					disabled={!inverted} 
+						/>
+				</div>
+				<br />
+				<div>
+          <Button text="리셋" btn={reset} state={true}/>
+          <Button text={inverted ? '킬로미터=>마일':'마일=>킬로미터'} btn={invert} state={false} /> 
+				</div>
+			</div>
+		);
+	}
+
+	function App() {
+		const [index, setIndex] = React.useState("time");
+
+		const valueChange = (e) => {
+            setIndex(e.target.value);
+        };
+
+		return(
+		    <div>
+			    <h2>변환기</h2>
+			    <select value={index} onChange={valueChange}>
+				    <option value="time">분/시 변환기</option>
+				    <option value="unit">킬로미터/마일 변환기</option>
+			    </select>
+			    <hr />
+			    <div>
+					{index === 'time' ? Time() :null}
+					{index === 'unit' ? Unit() :null}
+				</div>
+			</div>
+		);
+	}
+	ReactDOM.render(<App />, root);
+</script>
+</html>
