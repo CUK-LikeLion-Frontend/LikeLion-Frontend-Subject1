@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Super Converter</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function App() {
+      const [index, setIndex] = React.useState("xx");
+      const [inverted, setInverted] = React.useState(false);
+      const [amount, setAmount] = React.useState(0);
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+      const reset = () => {
+        setAmount(0);
+      };
+      const invert = () => {
+        setInverted((current) => !current);
+        reset();
+      };
+      const onSelect = (event) => {
+        setIndex(event.target.value);
+      };
+
+      return (
+        <div
+          style={{
+            margin: "0 auto",
+            display: "block",
+            padding: "50px",
+            backgroundColor: "#2c3e50",
+            color: "#dcdde1",
+            width: "350px",
+            height: "700px",
+            borderRadius: "30px",
+            textAlign: "center",
+          }}
+        >
+          <h1>변환기</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="xx">변환기를 선택해주세요</option>
+            <option value="0">분/시 변환기</option>
+            <option value="1">킬로미터/마일 변환기</option>
+          </select>
+          <hr />
+          {index === "xx" ? <h3>변환기를 선택해주세요</h3> : null}
+          {index === "0" ? (
+            <MinutesToHours
+              index={index}
+              inverted={inverted}
+              amount={amount}
+              onChange={onChange}
+              invert={invert}
+            />
+          ) : null}
+          {index === "1" ? (
+            <KmToMiles
+              index={index}
+              inverted={inverted}
+              amount={amount}
+              onChange={onChange}
+              invert={invert}
+            />
+          ) : null}
+          {index === "1" || index === "0" ? (
+            <Button invert={invert} reset={reset} index={index} />
+          ) : null}
+        </div>
+      );
+    }
+
+    function MinutesToHours({ inverted, amount, onChange }) {
+      return (
+        <div
+          style={{
+            marginTop: "50px",
+          }}
+        >
+          <h1>분/시 변환기</h1>
+          <div
+            style={{
+              marginTop: "50px",
+            }}
+          >
+            <label htmlfor="minutes">분: </label>
+            <input
+              disabled={inverted}
+              value={inverted ? amount * 60 : amount}
+              onChange={onChange}
+              placeholder="Minutes"
+              type="number"
+            />
+          </div>
+          <div
+            style={{
+              marginTop: "5px",
+            }}
+          >
+            <label htmlfor="hours">시: </label>
+            <input
+              value={inverted ? amount : Math.round(amount / 60)}
+              onChange={onChange}
+              disabled={!inverted}
+              placeholder="Hours"
+              type="number"
+            />
+          </div>
+          <br />
+        </div>
+      );
+    }
+
+    function KmToMiles({ inverted, amount, onChange }) {
+      return (
+        <div
+          style={{
+            marginTop: "50px",
+          }}
+        >
+          <h1>킬로미터/마일 변환기</h1>
+          <div
+            style={{
+              marginTop: "50px",
+            }}
+          >
+            <label htmlfor="kilo">킬로미터: </label>
+            <input
+              disabled={inverted}
+              value={inverted ? amount * 1.609 : amount}
+              onChange={onChange}
+              placeholder="킬로미터"
+              type="number"
+            />
+          </div>
+          <div
+            style={{
+              marginTop: "5px",
+            }}
+          >
+            <label htmlfor="hours">마일: </label>
+            <input
+              value={inverted ? amount : Math.round(amount / 1.609)}
+              onChange={onChange}
+              disabled={!inverted}
+              placeholder="마일"
+              type="number"
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function Button({ reset, invert, index }) {
+      return (
+        <div
+          style={{
+            marginTop: "350px",
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
+          <button
+            onClick={reset}
+            style={{
+              backgroundColor: "tomato",
+              color: "white",
+              border: "none",
+              width: "100px",
+              height: "50px",
+              borderRadius: "10px",
+              margin: "10px",
+              cursor: "pointer",
+            }}
+          >
+            리셋
+          </button>
+          <button
+            onClick={invert}
+            style={{
+              backgroundColor: "#00a8ff",
+              color: "white",
+              border: "none",
+              width: "120px",
+              height: "50px",
+              borderRadius: "10px",
+              margin: "10px",
+              cursor: "pointer",
+              postion: "absolute",
+              bottom: "0",
+            }}
+          >
+            {index === "1" ? "마일=>킬로미터" : "시=>분"}
+          </button>
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

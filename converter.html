@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <style></style>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Converter</title>
+  </head>
+
+  <body>
+    <div id="root"></div>
+  </body>
+
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function App() {
+      const [inverted, setInverted] = React.useState(false);
+      const [amount, setAmount] = React.useState(0);
+      const onChange = (event) => {
+        setAmount(event.target.value);
+      };
+      const reset = () => {
+        setAmount(0);
+      };
+      const invert = () => {
+        setInverted((current) => !current);
+        reset();
+      };
+
+      return (
+        <div
+          style={{
+            margin: "0 auto",
+            display: "block",
+            padding: "50px",
+            backgroundColor: "#2c3e50",
+            color: "#dcdde1",
+            width: "350px",
+            height: "700px",
+            borderRadius: "30px",
+            textAlign: "center",
+          }}
+        >
+          <h3>분/시 변환기</h3>
+          <div
+            style={{
+              marginTop: "100px",
+            }}
+          >
+            <div>
+              <label htmlfor="minutes">분: </label>
+              <input
+                disabled={inverted}
+                value={inverted ? amount * 60 : amount}
+                onChange={onChange}
+                placeholder="Minutes"
+                type="number"
+              />
+            </div>
+            <div>
+              <label htmlfor="hours">시: </label>
+              <input
+                value={inverted ? amount : Math.round(amount / 60)}
+                onChange={onChange}
+                disabled={!inverted}
+                placeholder="Hours"
+                type="number"
+              />
+            </div>
+          </div>
+          <br />
+          <div
+            style={{
+              marginTop: "450px",
+            }}
+          >
+            <button
+              style={{
+                backgroundColor: "tomato",
+                color: "white",
+                border: "none",
+                width: "100px",
+                height: "50px",
+                borderRadius: "10px",
+                margin: "10px",
+                cursor: "pointer",
+              }}
+              onClick={reset}
+            >
+              리셋
+            </button>
+            <button
+              style={{
+                backgroundColor: "#00a8ff",
+                color: "white",
+                border: "none",
+                width: "100px",
+                height: "50px",
+                borderRadius: "10px",
+                margin: "10px",
+                cursor: "pointer",
+              }}
+              onClick={invert}
+            >
+              전환
+            </button>
+          </div>
+        </div>
+      );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
