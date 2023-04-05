@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function Button(props) {
+      return (
+        <button
+          style={{
+            backgroundColor: props.bgColor,
+            color: "white",
+            height: "30px",
+            border: "none",
+            borderRadius: "3px",
+            marginRight: "5px",
+          }}
+          onClick={props.onClick}
+        >
+          {props.text}
+        </button>
+      );
+    }
+    function MinutesToHours() {
+      const [inverted, setInverted] = React.useState(false);
+      const [num, setNum] = React.useState(0);
+      const onChange = (e) => {
+        setNum(e.target.value);
+      };
+      const reset = () => setNum(0);
+      const invert = () => {
+        reset();
+        setInverted((cur) => !cur);
+      };
+      return (
+        <div>
+          <h3>분/시 변환기</h3>
+          <div>
+            <label htmlFor="minutes">분: </label>
+            <input
+              id="minutes"
+              value={inverted ? num * 60 : num}
+              placeholder="Minutes"
+              type="number"
+              onChange={onChange}
+              disabled={inverted}
+            />
+          </div>
+          <div>
+            <label htmlFor="hours">시: </label>
+            <input
+              id="hours"
+              value={inverted ? num : Math.round(num / 60)}
+              placeholder="Hours"
+              type="number"
+              onChange={onChange}
+              disabled={!inverted}
+            />
+          </div>
+          <br />
+          <div>
+            <Button text="리셋" bgColor="tomato" onClick={reset} />
+            <Button
+              text={inverted ? "분=>시" : "시=>분"}
+              bgColor="skyblue"
+              onClick={invert}
+            />
+          </div>
+        </div>
+      );
+    }
+    function KmToMiles() {
+      const [inverted, setInverted] = React.useState(false);
+      const [num, setNum] = React.useState(0);
+      const onChange = (e) => {
+        setNum(e.target.value);
+      };
+      const reset = () => setNum(0);
+      const invert = () => {
+        reset();
+        setInverted((cur) => !cur);
+      };
+      return (
+        <div>
+          <h3>킬로미터/마일 변환기</h3>
+          <div>
+            <label htmlFor="km">킬로미터: </label>
+            <input
+              id="km"
+              value={inverted ? num * 1.609 : num}
+              placeholder="kilometer"
+              type="number"
+              onChange={onChange}
+              disabled={inverted}
+            />
+          </div>
+          <div>
+            <label htmlFor="mile">마일: </label>
+            <input
+              id="mile"
+              value={inverted ? num : num * 0.62}
+              placeholder="miles"
+              type="number"
+              onChange={onChange}
+              disabled={!inverted}
+            />
+          </div>
+          <br />
+          <div>
+            <Button text="리셋" bgColor="tomato" onClick={reset} />
+            <Button
+              text={inverted ? "킬로미터=>마일" : "마일=>킬로미터"}
+              bgColor="skyblue"
+              onClick={invert}
+            />
+          </div>
+        </div>
+      );
+    }
+    function App() {
+      const [index, setIndex] = React.useState("0");
+      const onSelect = (e) => {
+        setIndex(e.target.value);
+      };
+      return (
+        <div>
+          <h1>변환기</h1>
+          <select value={index} onChange={onSelect}>
+            <option value="0">분/시 변환기</option>
+            <option value="1">킬로미터/마일 변환기</option>
+          </select>
+          <hr />
+          {index === "0" ? <MinutesToHours /> : null}
+          {index === "1" ? <KmToMiles /> : null}
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
