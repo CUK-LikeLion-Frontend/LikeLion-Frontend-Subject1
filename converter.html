@@ -35,8 +35,8 @@
 							type="number" 
 							id="minute" 
 							placeholder="Minutes"
-							value={inverted === false ? times : times * 60}
-							disabled={inverted === true} //invertes 초기값은 false인데 minutes는 true일때만 disabled 즉 초기상태는 활성화
+							value={inverted ? times * 60 : times }
+							disabled={inverted} //invertes 초기값은 false인데 minutes는 true일때만 disabled 즉 초기상태는 활성화
 						/>
 					</div>
 					<div>
@@ -46,8 +46,8 @@
 							type="number" 
 							id="hour" 
 							placeholder="Hours"
-							value={inverted === true ? times : Math.round(times / 60)}
-							disabled={inverted === false} //inverted가 false면 hours는 disabled(비활성화)
+							value={inverted ? times : Math.round(times / 60)}
+							disabled={!inverted} //inverted가 false면 hours는 disabled(비활성화)
 						/>
 					</div>
 					<br />
