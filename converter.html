@@ -9,7 +9,6 @@
    <script type="text/babel">
       function App() {
          // useState hooks을 이용해 상태값을 관리합니다.
-         // useState를 사용하는 방법과 hooks에 대해 공부해보세요 
          const [inverted, setInverted] = React.useState(false);
          const [minutes, setMinutes] = React.useState(0);
          const [hours, setHours] = React.useState(0);
@@ -41,7 +40,6 @@
          }
 
      // 분/시간 변환 함수입니다.
-     // 원래 코드와 비교해보고 변경된 부분에 대해 공부해보세요 
      function convertTime(minutes, hours, inverted) {
         if(inverted) {
            const totalMinutes = hours * 60;
