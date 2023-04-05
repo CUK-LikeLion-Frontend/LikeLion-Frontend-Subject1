@@ -1,1 +1,1 @@
-프론트엔드 교육과정 과제 1을 위한 저장소입니다.
+https://lapis-margin-2db.notion.site/8ac6811bf9b546e6867f23dfbff5ca1e
