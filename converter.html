@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+   <body>
+      <div id="root"></div>
+   </body>
+   <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+   <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+   <script type="text/babel">
+      function App() {
+         // useState hooks을 이용해 상태값을 관리합니다.
+         // useState를 사용하는 방법과 hooks에 대해 공부해보세요 
+         const [inverted, setInverted] = React.useState(false);
+         const [minutes, setMinutes] = React.useState(0);
+         const [hours, setHours] = React.useState(0);
+
+        // 분/시간 입력값 초기화 함수입니다.
+        const reset = () => {
+        setMinutes(0);
+        setHours(0);
+     }
+
+     // 분/시간 전환 함수입니다.
+     const invert = () => {
+        reset();
+        setInverted((current) => (!current));
+        // invert 버튼 클릭 시 분 입력 박스로 포커스가 이동하도록 만들어줍니다.
+        //document.getElementById("minutes-input").focus();
+     }
+
+         // 분 입력값 변경 함수입니다.
+         function handleMinutesChange(event) {
+            setMinutes(event.target.value);
+            setHours(Math.round(event.target.value / 60)); // 분 입력값에 따른 시간 입력값을 계산합니다.
+         }
+
+         // 시간 입력값 변경 함수입니다.
+         function handleHoursChange(event) {
+            setHours(event.target.value);
+            setMinutes(Math.round(event.target.value * 60)); // 시간 입력값에 따른 분 입력값을 계산합니다.
+         }
+
+     // 분/시간 변환 함수입니다.
+     // 원래 코드와 비교해보고 변경된 부분에 대해 공부해보세요 
+     function convertTime(minutes, hours, inverted) {
+        if(inverted) {
+           const totalMinutes = hours * 60;
+           return {
+              minutes: totalMinutes,
+              hours: 0
+           }
+        }
+        else {
+           const totalHours = Math.floor(minutes / 60);
+           const totalMinutes = minutes % 60;
+           return {
+              hours: totalHours,
+              minutes: totalMinutes
+           };
+        }
+     }
+
+     // 입력값에 따른 변환 결과를 계산합니다.
+     const result = convertTime(minutes, hours, inverted);
+
+     // UI를 렌더링합니다.
+     return (
+        <div>
+           <h3>분/시 변환기</h3>
+           <div>
+              <label>분: </label>
+              {/* 분 입력 박스에 id를 추가하고 invert 함수에서 포커스를 이동하도록 만들어줍니다. */}
+              <input id="minutes-input" placeholder="Minutes" type="number" value={minutes} onChange={handleMinutesChange} disabled={inverted}/>
+           </div>
+           <div>
+              <label>시: </label>
+              <input placeholder="Hours" type="number" value={hours} onChange={handleHoursChange} disabled={!inverted}/>
+           </div>
+           <br />
+           <div>
+              <button onClick={reset}>리셋</button>
+              <button onClick={invert}>전환</button>
+           </div>
+           <br />
+           
+           {/* <div>
+             // 변환 결과를 출력합니다.
+              <p>{inverted ? `${result.minutes}분` : `${result.hours}시간 ${result.minutes}분`}</p>
+           </div>
+           */}
+           
+        </div>
+     );
+  }
+      // React 컴포넌트를 root 요소에 렌더합니다.
+      ReactDOM.render(<App />, root);
+   </script>
+</html>
