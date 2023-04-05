@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root" />
+
+    <script type="text/babel">
+      function App() {
+        const [value, setValue] = React.useState(0);
+        const [inverted, setInverted] = React.useState(false);
+
+        const reset = () => {
+          setValue(0);
+        };
+        const onChange = (e) => {
+          setValue(e.target.value);
+        };
+        const onInvert = () => {
+          reset();
+          setInverted((e) => !e);
+        };
+
+        return (
+          <div
+            style={{
+              backgroundImage: "url(newjeans.jpg)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <div
+              style={{
+                border: "3px dotted white",
+                padding: "90px",
+                backgroundColor: "lightgreen",
+              }}
+            >
+              <h3>분/시 변환기</h3>
+              <hr />
+              <div>
+                <label htmlFor="minute">분: </label>
+                <input
+                  id="minute"
+                  value={inverted ? value * 60 : value}
+                  placeholder="Minutes"
+                  type="number"
+                  onChange={onChange}
+                  disabled={inverted}
+                />
+              </div>
+              <div>
+                <label htmlFor="hour">시: </label>
+                <input
+                  id="hour"
+                  value={inverted ? value : Math.round(value / 60)}
+                  placeholder="Hours"
+                  type="number"
+                  onChange={onChange}
+                  disabled={!inverted}
+                />
+              </div>
+              <br />
+              <div>
+                <button
+                  style={{
+                    backgroundColor: "red",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                  onClick={reset}
+                >
+                  리셋
+                </button>
+                <button
+                  style={{
+                    backgroundColor: "skyblue",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                  }}
+                  onClick={onInvert}
+                >
+                  {inverted ? "시=>분" : "분=>시"}
+                </button>
+              </div>
+            </div>
+          </div>
+        );
+      }
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

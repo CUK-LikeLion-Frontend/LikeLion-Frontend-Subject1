@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root" />
+    <script type="text/babel">
+      function Button(props) {
+        return (
+          <button
+            style={{
+              backgroundColor: props.bgColor,
+              color: "white",
+              border: "none",
+              marginRight: "3px",
+              borderRadius: "10px",
+            }}
+            onClick={props.onClick}
+          >
+            {props.text}
+          </button>
+        );
+      }
+
+      function MinuteChange() {
+        const [value, setValue] = React.useState(0);
+        const [inverted, setInverted] = React.useState(false);
+
+        const reset = () => {
+          setValue(0);
+        };
+        const onChange = (e) => {
+          setValue(e.target.value);
+        };
+        const onInvert = () => {
+          reset();
+          setInverted((e) => !e);
+        };
+
+        return (
+          <div>
+            <h3>분/시 변환기</h3>
+            <hr />
+            <div>
+              <label htmlFor="minute">분: </label>
+              <input
+                id="minute"
+                value={inverted ? value * 60 : value}
+                placeholder="Minutes"
+                type="number"
+                onChange={onChange}
+                disabled={inverted}
+              />
+            </div>
+            <div>
+              <label htmlFor="hour">시: </label>
+              <input
+                id="hour"
+                value={inverted ? value : Math.round(value / 60)}
+                placeholder="Hours"
+                type="number"
+                onChange={onChange}
+                disabled={!inverted}
+              />
+            </div>
+            <br />
+            <div>
+              <Button text="리셋" bgColor="red" onClick={reset} />
+              <Button
+                text={inverted ? "시=>분" : "분=>시"}
+                bgColor="skyblue"
+                onClick={onInvert}
+              />
+            </div>
+          </div>
+        );
+      }
+      function KiloChange() {
+        const [value, setValue] = React.useState(0);
+        const [inverted, setInverted] = React.useState(false);
+
+        const reset = () => {
+          setValue(0);
+        };
+        const onChange = (e) => {
+          setValue(e.target.value);
+        };
+        const onInvert = () => {
+          reset();
+          setInverted((e) => !e);
+        };
+
+        return (
+          <div>
+            <h3>킬로미터/마일 변환기</h3>
+            <hr />
+            <div
+              style={{
+                flexDirection: "column",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <label htmlFor="km">킬로미터: </label>
+                <input
+                  id="km"
+                  value={inverted ? value * 1.61 : value}
+                  placeholder="kilometer"
+                  type="number"
+                  onChange={onChange}
+                  disabled={inverted}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                }}
+              >
+                <label htmlFor="mile">마일: </label>
+                <input
+                  id="mile"
+                  value={inverted ? value : value * 0.62}
+                  placeholder="Miles"
+                  type="number"
+                  onChange={onChange}
+                  disabled={!inverted}
+                />
+              </div>
+            </div>
+            <br />
+            <div>
+              <Button text="리셋" bgColor="red" onClick={reset} />
+              <Button
+                text={inverted ? "마일=>킬로미터" : "킬로미터=>마일"}
+                bgColor="skyblue"
+                onClick={onInvert}
+              />
+            </div>
+          </div>
+        );
+      }
+      function App() {
+        const [index, setIndex] = React.useState("0");
+        const onSelect = (e) => {
+          setIndex(e.target.value);
+        };
+        return (
+          <div
+            style={{
+              backgroundImage: "url(newjeans.jpg)",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}
+          >
+            <div
+              style={{
+                border: "3px solid yellow",
+                padding: "70px",
+                backgroundColor: "pink",
+              }}
+            >
+              <h1>수파 변환기</h1>
+              <select
+                value={index}
+                onChange={onSelect}
+                style={{
+                  width: "200px",
+                  padding: ".8em .5em",
+                  border: "1px solid #999",
+                  backgroundColor: "lightgray",
+                  borderRadius: "5px",
+                }}
+              >
+                <option value="0">킬로미터/마일 변환기</option>
+                <option value="1">분/시 변환기</option>
+              </select>
+              {index === "0" ? <KiloChange /> : null}
+              {index === "1" ? <MinuteChange /> : null}
+            </div>
+          </div>
+        );
+      }
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>
