@@ -345,4 +345,13 @@ Virtual DOM:
 ### References
 
 - https://fromnowwon.tistory.com/103
+
 - https://chat.openai.com/chat
+- https://m.blog.naver.com/haakuz/221341716499
+- https://velog.io/@kimhyesu-_-/JavaScript-%EB%B9%84%EA%B5%AC%EC%A1%B0%ED%99%94-%ED%95%A0%EB%8B%B9%EA%B5%AC%EC%A1%B0%EB%B6%84%ED%95%B4%ED%95%A0%EB%8B%B9
+
+- https://velog.io/@dnjsdud2257/var%EB%A5%BC-%EC%A7%80%EC%96%91%ED%95%98%EA%B3%A0-const-let%EC%9D%84-%EC%8D%A8%EC%95%BC%ED%95%98%EB%8A%94-%EC%9D%B4%EC%9C%A0
+
+- https://kkhcode.tistory.com/6
+
+- https://velog.io/@jangwonyoon/React%EC%97%90%EC%84%9C%EC%9D%98-%EB%B0%94%EB%B2%A8%EA%B3%BC-%EC%9B%B9%ED%8C%A9
