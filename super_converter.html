@@ -152,24 +152,31 @@
 
 		const Btn = ({text, onClickBtn}) => {
 
-			return(
-				<button style = 
-					{text=="Reset" ? 
-
-					{backgroundColor: "#FF4500",
+			let styles = {
+				forReset: {backgroundColor: "#FF4500",
       				color: "white",
 					border: 0,
       				padding: "5px 10px",
 					margin: "10px",
-      				borderRadius:5} 
-					: 
-					{backgroundColor:"#87CEEB",
+      				borderRadius:5},
+				fornotReset :{backgroundColor:"#87CEEB",
 					color: "white",
 					border: 0,
       				padding: "5px 10px",
 					margin: "10px",
       				borderRadius:5
 					}
+			};
+			
+			let {forReset, fornotReset} = styles;
+
+			return(
+				<button style = 
+					{text=="Reset" ? 
+
+					forReset 
+					: 
+					fornotReset
 				} onClick={onClickBtn}>{text}</button>
 			)
 		}
