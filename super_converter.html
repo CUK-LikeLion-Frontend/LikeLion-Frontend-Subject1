@@ -16,11 +16,11 @@
                             border:0,
                             color:"white",
                             borderRadius:5,
-                            padding:4,
+                            padding:4, 
                         }}>{text}</button>
         };
         const MinuteToHour = () => {
-            const[times,toTimes]=React.useState(0);
+            const [times,toTimes]=React.useState(0);
             const [inverted, setInverted] = React.useState(false);
             const onChange = (event) => {
                 toTimes(event.target.value);
