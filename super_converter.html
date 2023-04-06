@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      function Btn({ text, btn, bool }) {
+        return (
+          <button
+            onClick={btn}
+            style={{
+              backgroundColor: bool ? "tomato" : "green",
+              color: "white",
+              border: 0,
+            }}
+          >
+            {text}
+          </button>
+        );
+      }
+
+      function App() {
+        // const [value, setValue] = React.useState("Save Change");
+        //const changeValue = () => setVAlue("Revert Changes");
+        const [select, setSelect] = React.useState(0);
+        const onChange = (e) => {
+          setSelect(e.target.value);
+        };
+        return (
+          <div>
+            <h1>변환기</h1>
+            <div>
+              <form action="#">
+                <label for="lang"></label>
+                <select name="languages" id="lang" onChange={onChange}>
+                  <option value="1">분/시 변환기</option>
+                  <option value="2">킬로미터/마일 변환기</option>
+                </select>
+              </form>
+            </div>
+            <hr />
+            {select == "2" ? <KmtoMiles /> : <Time />}
+          </div>
+        );
+      }
+      function Time() {
+        const [value, setValue] = React.useState(0);
+        //리액트 쓰려면 (변수값을 바꾸기 위해)유즈 스테이트 써야하고 , 0을 줘서 가장 처음에 박스 안에 0이 뜨는 것임
+        const [inverted, setInverted] = React.useState(false);
+        const onChange = (e) => {
+          setValue(e.target.value);
+        };
+
+        const reset = () => {
+          setValue(0);
+        };
+
+        const invert = () => {
+          setInverted((current) => !current);
+          setValue(0); // reset(); 해도됨
+        };
+        //전환 버튼 눌렀을 떄 함수를 함, 인버트 초기값 펄스,
+        //콜백함수 : 매개변수 를 알아야됨 current
+
+        return (
+          <div>
+            <h3>분/시 변환기</h3>
+
+            <div>
+              <label htmlFor="minutes">분: </label>
+              <input
+                placeholder="Minutes"
+                type="number"
+                id="minutes"
+                value={inverted ? value * 60 : value}
+                onChange={onChange}
+                disabled={inverted}
+              />
+            </div>
+            <div>
+              <label htmlFor="hours">시: </label>
+              <input
+                placeholder="Hours"
+                type="number"
+                id="hours"
+                value={inverted ? value : Math.round(value / 60)}
+                onChange={onChange}
+                disabled={!inverted}
+              />
+            </div>
+            <br />
+            <div>
+              <Btn text="리셋" btn={reset} bool={true} />
+              <Btn
+                text={inverted == value ? "분=>시" : "시=>분"}
+                btn={invert}
+                bool={false}
+              />
+            </div>
+          </div>
+        );
+      }
+
+      function KmtoMiles() {
+        const [value, setValue] = React.useState(0);
+        //리액트 쓰려면 (변수값을 바꾸기 위해)유즈 스테이트 써야하고 , 0을 줘서 가장 처음에 박스 안에 0이 뜨는 것임
+        const [inverted, setInverted] = React.useState(false);
+        const onChange = (e) => {
+          setValue(e.target.value);
+        };
+
+        const reset = () => {
+          setValue(0);
+        };
+
+        const invert = () => {
+          setInverted((current) => !current);
+          setValue(0); // reset(); 해도됨
+        };
+        // 전환 버튼 눌렀을 떄 함수를 함, 인버트 초기값 펄스,
+        // 콜백함수 : 매개변수 를 알아야됨 current
+
+        return (
+          <div>
+            <h3> 킬로미터/마일 변환기</h3>
+            <div>
+              <label htmlFor="km">킬로미터: </label>
+              <input
+                placeholder="km"
+                type="number"
+                id="km"
+                value={inverted ? value * 1.609344 : value}
+                onChange={onChange}
+                disabled={inverted}
+              />
+            </div>
+            <div>
+              <label htmlFor="mile">마일: </label>
+              <input
+                placeholder="mile"
+                type="number"
+                id="mile"
+                value={inverted ? value : Math.round(value / 1.609344)}
+                onChange={onChange}
+                disabled={!inverted}
+              />
+            </div>
+            <br />
+            <div>
+              <Btn text="리셋" btn={reset} bool={true} />
+              <Btn
+                text={inverted ? "킬로미터=>마일" : "마일=>킬로미터"}
+                btn={invert}
+                bool={false}
+              />
+            </div>
+          </div>
+        );
+      }
+      const root = document.getElementById("root");
+      ReactDOM.render(<App />, root);
+    </script>
+    <!-- <script src="kmtoMiles.js"></script> -->
+  </body>
+</html>
