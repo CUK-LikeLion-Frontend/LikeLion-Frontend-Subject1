@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function Btn({ text, btn, bool }) {
+      //비구조화 할당
+      return (
+        <button
+          onClick={btn} //클릭했을 때 발생하는 이벤트
+          style={{
+            backgroundColor: bool ? "tomato" : "#93DAFF",
+            //버튼 스타일이 2개이기 때문에 boolen 이용하기
+            color: "white",
+            border: 0,
+            padding: "5px 10px",
+            borderRadius: 5,
+          }}
+        >
+          {text}
+        </button>
+      );
+    }
+
+    function Time() {
+      const [inverted, setInverted] = React.useState(false); //변수선언
+      const [amount, setAmount] = React.useState(0);
+
+      const reset = () => {
+        setAmount(0);
+      }; //리셋 버튼
+
+      const onChange = (e) => {
+        setAmount(e.target.value); //변화감지
+      };
+
+      const invert = () => {
+        setInverted((current) => !current);
+        reset();
+      }; //전환 버튼
+
+      return (
+        <div>
+          <h3>분/시 변환기</h3>
+          <div>
+            <label>분: </label>
+            <input
+              id="min"
+              onChange={onChange}
+              placeholder="Minutes"
+              type="number"
+              disabled={inverted}
+              value={inverted ? amount * 60 : amount}
+            />
+          </div>
+          <div>
+            <label>시: </label>
+            <input
+              id="hour"
+              onChange={onChange}
+              placeholder="Hours"
+              type="number"
+              disabled={!inverted}
+              value={inverted ? amount : Math.round(amount / 60)}
+            />
+          </div>
+          <br />
+          <div>
+            <Btn text="리셋" btn={reset} bool={true} />
+            <Btn
+              text={inverted ? "분=>시" : "시=>분"}
+              btn={invert}
+              bool={false}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function Susuper() {
+      const [inverted, setInverted] = React.useState(false);
+      const [amount, setAmount] = React.useState(0);
+
+      const reset = () => {
+        setAmount(0);
+      };
+
+      const onChange = (e) => {
+        setAmount(e.target.value);
+      };
+
+      const invert = () => {
+        setInverted((current) => !current);
+        reset();
+      };
+
+      return (
+        <div>
+          <h3>킬로미터/마일 변환기</h3>
+          <div>
+            <label>킬로미터: </label>
+            <input
+              id="km"
+              onChange={onChange}
+              placeholder="Km"
+              type="number"
+              disabled={inverted}
+              value={inverted ? amount * 0.621371 : amount}
+            />
+          </div>
+          <div>
+            <label>마일: </label>
+            <input
+              id="mile"
+              onChange={onChange}
+              placeholder="Mile"
+              type="number"
+              disabled={!inverted}
+              value={inverted ? amount : Math.round(amount / 0.621371)}
+            />
+          </div>
+          <br />
+          <div>
+            <Btn text="리셋" btn={reset} bool={true} />
+            <Btn
+              text={inverted ? "킬로미터=>마일" : "마일=>킬로미터"}
+              btn={invert}
+              bool={false}
+            />
+          </div>
+        </div>
+      );
+    }
+
+    function App() {
+      const [select, setSelect] = React.useState("");
+
+      const onChange = (e) => {
+        setSelect(e.target.value);
+      };
+
+      return (
+        <div>
+          <div>
+            <h1>변환기</h1>
+          </div>
+
+          <select value={select} onChange={onChange}>
+            <option value="time">분/시 변환기</option>
+            <option value="super">킬로미터/마일 변환기</option>
+          </select>
+
+          <hr />
+          <div> {select == "super" ? <Susuper /> : <Time />}</div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, root);
+  </script>
+</html>
