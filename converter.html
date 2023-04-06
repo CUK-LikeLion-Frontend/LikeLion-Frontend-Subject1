@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+		function App() {
+			const [inverted, setInverted] = React.useState(false);
+            const [minutes, setMinutes] = React.useState(0);
+            const onChange = (event) => {
+                setMinutes(event.target.value);
+            };
+            const invert = () => {
+                setInverted((current) => !current);
+				
+            }
+			function reset() {
+				setMinutes(0);
+			}
+
+			return (
+				<div>
+					<h3>분/시 변환기</h3>
+					<div>
+						<label>분: </label>
+						<input 
+                        placeholder="Minutes" 
+                        type="number" 
+                        value={inverted ?  minutes * 60: minutes}
+						onChange={onChange}
+                        disabled={inverted === true}
+                      />
+					</div>
+					<div>
+						<label>시: </label>
+						<input 
+                        placeholder="Hours" 
+                        type="number" 
+                        value={inverted ? minutes : Math.round(minutes / 60)}
+                        onChange={onChange}
+                        disabled={inverted === false}
+                      />
+					</div>
+					<br />
+					<div>
+						<button onClick={reset}>리셋</button>
+						<button onClick={invert}>{inverted ? "분=>시":"시=>분"}</button>
+					</div>
+				</div>
+			);
+		}
+		ReactDOM.render(<App />, root);
+	</script>
+</html>
