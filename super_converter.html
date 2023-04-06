@@ -8,17 +8,17 @@
   <body>
     <div id="root"></div>
     <script type="text/babel">
-      function Btn({ lucky, changeValue }) {
+      function Btn({ text, btn, bool }) {
         return (
           <button
-            onClick={changeValue}
+            onClick={btn}
             style={{
-              backgroundColor: "tomato",
+              backgroundColor: bool ? "tomato" : "green",
               color: "white",
               border: 0,
             }}
           >
-            {lucky}
+            {text}
           </button>
         );
       }
@@ -94,10 +94,12 @@
             </div>
             <br />
             <div>
-              <button onClick={reset}>리셋</button>
-              <button onClick={invert}>
-                {inverted == value ? "분=>시" : "시=>분"}
-              </button>
+              <Btn text="리셋" btn={reset} bool={true} />
+              <Btn
+                text={inverted == value ? "분=>시" : "시=>분"}
+                btn={invert}
+                bool={false}
+              />
             </div>
           </div>
         );
@@ -149,10 +151,12 @@
             </div>
             <br />
             <div>
-              <button onClick={reset}>리셋</button>
-              <button onClick={invert}>
-                {inverted == value ? "킬로미터=>마일" : "마일=>킬로미터"}
-              </button>
+              <Btn text="리셋" btn={reset} bool={true} />
+              <Btn
+                text={inverted ? "킬로미터=>마일" : "마일=>킬로미터"}
+                btn={invert}
+                bool={false}
+              />
             </div>
           </div>
         );
