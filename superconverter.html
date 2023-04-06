@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+   <body>
+      <div id="root"></div>
+   </body>
+   <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+   <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+   <script type="text/babel">
+  
+  // Button 컴포넌트
+  function Btn(props){
+     return (
+     <button
+        style={{ 
+            backgroundColor: props.backgroundColor,
+            color: props.color,
+            marginRight: '10px',
+            borderRadius: '5px',
+            padding: '5px 10px',
+            border: 'none'
+         }}
+      onClick={props.onClick}>
+      {props.label}
+    </button>
+  );
+}
+  // Minutetohour 컴포넌트
+  function Minutetohour() {
+         // useState hooks을 이용해 상태값을 관리합니다. 
+         const [inverted, setInverted] = React.useState(false);
+         const [minutes, setMinutes] = React.useState(0);
+         const [hours, setHours] = React.useState(0);
+
+        // 분/시간 입력값 초기화 함수입니다.
+        const reset = () => {
+        setMinutes(0); // 분 입력값 초기화
+        setHours(0); // 시간 입력값 초기화
+     }
+
+        // 분/시간 전환 함수입니다.
+        const invert = () => {
+        reset();
+        setInverted((current) => (!current));
+        // invert 버튼 클릭 시 분 입력 박스로 포커스가 이동하도록 만들어줍니다.
+        //document.getElementById("minutes-input").focus();
+     }
+
+         // 분 입력값 변경 함수입니다.
+         function handleMinutesChange(event) {
+            setMinutes(event.target.value);
+            setHours(Math.round(event.target.value / 60)); // 분 입력값에 따른 시간 입력값을 계산합니다.
+         }
+
+         // 시간 입력값 변경 함수입니다.
+         function handleHoursChange(event) {
+            setHours(event.target.value);
+            setMinutes(Math.round(event.target.value * 60)); // 시간 입력값에 따른 분 입력값을 계산합니다.
+         }
+
+     // 분/시간 변환 함수입니다.
+         function convertTime(minutes, hours, inverted) {
+        if(inverted) {
+           const totalMinutes = hours * 60;
+           return {
+              minutes: totalMinutes,
+              hours: 0
+           }
+        }
+        else {
+           const totalHours = Math.floor(minutes / 60);
+           const totalMinutes = minutes % 60;
+           return {
+              hours: totalHours,
+              minutes: totalMinutes
+           };
+        }
+     }
+
+     // 입력값에 따른 변환 결과를 계산합니다.
+     const result = convertTime(minutes, hours, inverted);
+
+     // UI를 렌더링합니다.
+     return (
+        <div>
+           <h3>분/시 변환기</h3>
+           <div>
+              <label>분: </label>
+              {/* 분 입력 박스에 id를 추가하고 invert 함수에서 포커스를 이동하도록 만들어줍니다. */}
+              <input id="minutes-input" placeholder="Minutes" type="number" value={minutes} onChange={handleMinutesChange} disabled={inverted}/>
+           </div>
+           <div>
+              <label>시: </label>
+              <input placeholder="Hours" type="number" value={hours} onChange={handleHoursChange} disabled={!inverted}/>
+           </div>
+           <br />
+           <div>
+              <Btn backgroundColor="#4CAF50" color="white" label="리셋" onClick={reset} />
+              <Btn backgroundColor="#6ABDE4" color="white" label="전환" onClick={invert} />
+           </div>
+           <br />
+          {/* <div>
+               변환 결과를 출력합니다.
+              <p>{inverted ? `${result.minutes}분` : `${result.hours}시간 ${result.minutes}분`}</p>
+           </div>
+           */}
+        </div>
+     );
+  }
+  // Kmtomile 컴포넌트
+  function Kmtomile() {
+     // useState hooks을 이용해 상태값을 관리합니다. 
+      const [inverted, setInverted] = React.useState(false);
+      const [kilometers, setKilometers] = React.useState(0); // km 입력값 상태값 추가
+      const [miles, setMiles] = React.useState(0); // mile 입력값 상태값 추가
+    
+      // Km/Mile 입력값 초기화 함수입니다.
+      const reset = () => {
+         setKilometers(0); // km 입력값 초기화
+         setMiles(0); // mile 입력값 초기화
+     }
+
+     //  Km/Mile 전환 함수입니다.
+     const invert = () => {
+          reset();
+          setInverted((current) => (!current));
+      }
+
+      //  Km 입력값 변경 함수입니다.
+     function handleKilometersChange(event) {
+          setKilometers(event.target.value);
+          setMiles(Math.round(event.target.value / 1.60934 * 100) / 100); // km -> mile 변환 계산식
+      }
+     // Mile 입력값 변경 함수입니다.
+     function handleMilesChange(event) {
+          setMiles(event.target.value);
+          setKilometers(Math.round(event.target.value * 1.60934 * 100) / 100); // mile -> km 변환 계산식
+      }
+     // Km/Mile 변환 함수입니다.
+     function convertDistance(kilometers, miles, inverted) {
+         if(inverted) {
+              const totalKilometers = miles * 1.60934;
+         return {
+             kilometers: totalKilometers,
+             miles: 0
+      }
+    }
+          else {
+             const totalMiles = Math.round(kilometers / 1.60934 * 100) / 100;
+          return {
+             miles: totalMiles,
+             kilometers: kilometers
+      };
+    }
+  }
+
+    // 입력값에 따른 변환 결과를 계산합니다.
+     const result = convertDistance(kilometers, miles, inverted);
+
+     // UI를 렌더링합니다.
+    return (
+     <div>
+          <h3>킬로미터/마일 변환기</h3>
+      <div>
+        <label>킬로미터: </label>
+         {/* 분 입력 박스에 id를 추가하고 invert 함수에서 포커스를 이동하도록 만들어줍니다. */}
+        <input id="kilometers-input" placeholder="Kilometers" type="number" value={kilometers} onChange={handleKilometersChange} disabled={inverted}/>
+    </div>
+    <div>
+        <label>마일: </label>
+        <input placeholder="Miles" type="number" value={miles} onChange={handleMilesChange} disabled={!inverted}/>
+    </div>
+    <br />
+    <div>
+        <Btn backgroundColor="#FFC0CB" color="white" label="리셋" onClick={reset} />
+        <Btn backgroundColor="#D7BDE2" color="white" label="전환" onClick={invert} />
+    </div>
+    <br />
+      {/* <div>
+        <p>{inverted ? `${result.miles}마일` : `${result.kilometers}킬로미터`}</p>
+      </div>
+      */}
+    </div>
+  );
+}
+// Superconverter 컴포넌트 정의
+function Superconverter () {
+  
+  // index 상태 변수를 정의하고 초기값으로 "0"을 설정합니다.
+  const [index, setIndex] = React.useState("0");
+  
+  // onSelect 함수를 정의합니다. 드롭다운 메뉴에서 선택한 값을 index 값으로 설정합니다.
+  const onSelect = (event) => {
+    setIndex(event.target.value);
+  };
+  
+  // JSX를 반환합니다.
+  return (
+    <div>
+      <h3> Super Converter </h3>
+      
+      {/* 드롭다운 메뉴를 생성합니다. */}
+      <select value={index} onChange={onSelect}>
+        <option value="0"> Select Menu </option>
+        <option value="1"> Minute > hour </option>
+        <option value="2"> Km > mile </option>
+      </select>
+      
+      {/* 수평선을 추가합니다. */}
+      <hr />
+      
+      {/* index 값에 따라 하위 컴포넌트를 렌더링합니다. */}
+      {index === "1" ? <Minutetohour/> : null}
+      {index === "2" ? <Kmtomile/> : null}
+    </div>
+  )
+}
+
+ // React 컴포넌트를 root 요소에 렌더합니다.
+ ReactDOM.render(<Superconverter/>, root);
+   </script>
+</html>
