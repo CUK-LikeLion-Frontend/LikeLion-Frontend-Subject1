@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="style.css" />
+    <title>Time Converter</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    const Button = (props) => {
+      const { label, id, onClick } = props;
+
+      return (
+        <button id={id} onClick={onClick}>
+          {label}
+        </button>
+      );
+    };
+    const TimeConverter = () => {
+      const [inverted, setInverted] = React.useState(false);
+
+      const [time, setTime] = React.useState(0);
+
+      const onChangeHandler = (e) => {
+        setTime(e.target.value);
+      };
+
+      // 분, 시 입력창이 0으로 초기화되는 함수
+      const reset = () => {
+        setTime(0);
+      };
+
+      // 분->시 / 시->분 전환하는 함수
+      const invert = () => {
+        setInverted((current) => !current);
+      };
+
+      return (
+        <div>
+          <h3>분/시 변환기</h3>
+          <div>
+            <label>분: </label>
+            <input
+              placeholder="Minutes"
+              type="number"
+              value={inverted ? time * 60 : time}
+              onChange={onChangeHandler}
+              disabled={inverted === true}
+            />
+          </div>
+          <div>
+            <label>시: </label>
+            <input
+              placeholder="Hours"
+              type="number"
+              value={inverted ? time : Math.round(time / 60)}
+              onChange={onChangeHandler}
+              disabled={inverted === false}
+            />
+          </div>
+          <br />
+          <div>
+            <Button label="리셋" id="resetBtn" onClick={reset} />
+            <Button
+              label={inverted ? "분 => 시" : "시 => 분"}
+              id="invertBtn"
+              onClick={invert}
+            />
+          </div>
+        </div>
+      );
+    };
+
+    const KiloConverter = () => {
+      const [inverted, setInverted] = React.useState(false);
+
+      const [distance, setDistance] = React.useState(0);
+
+      const onChangeHandler = (e) => {
+        setDistance(e.target.value);
+      };
+
+      // 분, 시 입력창이 0으로 초기화되는 함수
+      const reset = () => {
+        setDistance(0);
+      };
+
+      // 분->시 / 시->분 전환하는 함수
+      const invert = () => {
+        setInverted((current) => !current);
+      };
+
+      return (
+        <div>
+          <h3>킬로미터/마일 변환기</h3>
+          <div>
+            <label>킬로미터: </label>
+            <input
+              placeholder="Kilometers"
+              type="number"
+              value={inverted ? distance * 1.6 : distance}
+              onChange={onChangeHandler}
+              disabled={inverted === true}
+            />
+          </div>
+          <div>
+            <label>마일: </label>
+            <input
+              placeholder="Miles"
+              type="number"
+              value={inverted ? distance : distance * 0.62}
+              onChange={onChangeHandler}
+              disabled={inverted === false}
+            />
+          </div>
+          <br />
+          <div>
+            <Button label="리셋" id="resetBtn" onClick={reset} />
+            <Button
+              label={inverted ? "킬로미터 => 마일" : "마일 => 킬로미터"}
+              id="invertBtn"
+              onClick={invert}
+            />
+          </div>
+        </div>
+      );
+    };
+
+    function App() {
+      const [select, setSelect] = React.useState("0"); // select state
+
+      // select change handler
+      const onChangeSelect = (e) => {
+        setSelect(e.target.value);
+      };
+
+      return (
+        <div>
+          <h1>변환기</h1>
+          <select value={select} onChange={onChangeSelect}>
+            <option value="0">분/시 변환기</option>
+            <option value="1">킬로미터/마일 변환기</option>
+          </select>
+          {select === "0" ? <TimeConverter /> : null}
+          {select === "1" ? <KiloConverter /> : null}
+        </div>
+      );
+    }
+    ReactDOM.render(<App />, root);
+  </script>
+</html>

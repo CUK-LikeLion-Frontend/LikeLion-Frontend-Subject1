@@ -1,0 +1,23 @@
+#resetBtn {
+  background-color: rgb(255, 128, 128);
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#resetBtn:hover {
+  color: rgb(255, 128, 128);
+  background-color: white;
+}
+
+#invertBtn {
+  background-color: rgb(147, 203, 255);
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+#invertBtn:hover {
+  color: rgb(147, 203, 255);
+  background-color: white;
+}
