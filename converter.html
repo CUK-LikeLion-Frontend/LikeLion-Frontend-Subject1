@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+
+		function Button({ onClickFunc, text, color }) {
+			return (
+				<button onClick={onClickFunc} 
+								style={{ width: '15%', color: 'white', backgroundColor: color, borderRadius: 10, borderWidth: 0 }}>
+				{text}</button>
+			);
+		}
+
+		function TimeConverter() {
+			const [inverted, setInverted] = React.useState(false);
+			const [min, setMin] = React.useState(0);
+			const [hour, setHour] = React.useState(0);
+			const minInputRef = React.useRef();
+			const hourInputRef = React.useRef();
+
+			React.useEffect(() => {
+				minInputRef.current.focus();
+			}, [])
+
+			React.useEffect(() => {
+				if (!invert)
+					minInputRef.current.focus();
+				else
+					hourInputRef.current.focus();
+			}, [inverted])
+
+			const handleOnChangeMin = (e) => {
+				const target = e.target.value;
+
+				if (target < 0)
+					return ;
+				setMin(target);
+				setHour(Math.round(target / 60));
+			}
+
+			const handleOnChangeHour = (e) => {
+				const target = e.target.value;
+
+				if (target < 0)
+					return ;
+				setHour(target);
+				setMin(target * 60);
+			}
+
+			const reset = () => {
+				setMin(0);
+				setHour(0);
+			}
+
+			const invert = () => {
+				setInverted(!inverted);
+				reset();
+			}
+
+			return (
+				<div style={{ display: 'flex', flexDirection: 'column',  alignItems: 'center' }}>
+					<h3>분/시 변환기</h3>
+					<div>
+						<label htmlFor="min">분: </label>
+						<input 
+							id="min"
+							placeholder="Minutes" 
+							type="number"
+							ref={minInputRef}
+							value={min}
+							onChange={(e)=>handleOnChangeMin(e)}
+							disabled={inverted ? true : false}
+							
+						/>
+					</div>
+					<div>
+						<label htmlFor="hour">시: </label>
+						<input 
+							id="hour"
+							placeholder="Hours"
+							type="number"
+							ref={hourInputRef}
+							value={hour}
+							onChange={(e)=>handleOnChangeHour(e)}
+							disabled={!inverted ? true : false}
+						/>
+					</div>
+					<br />
+					<div style={{ display: 'flex', flexDirection: 'row', width: '50%', justifyContent: 'center'}}>
+						<Button onClickFunc={reset} text="리셋" color="tomato" />
+						<Button onClickFunc={invert} text={inverted ? "분=>시" : "시=>분"} color="skyBlue" />
+					</div>
+				</div>
+			);
+		}
+		ReactDOM.render(<TimeConverter />, root);
+	</script>
+</html>
