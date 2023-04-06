@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <div id="root"></div> 
+    </body>
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script type="text/babel">
+        //버튼 컴포넌트
+        function Button({text,action,boolean}){
+            return <button
+                        onClick = {action}
+                        style = {{
+                            backgroundColor:boolean?"#FD5E45":"#85CCE9",
+                            border:0,
+                            color:"white",
+                            borderRadius:5,
+                            padding:4,   
+                        }}>{text}</button>
+        };
+        const MinuteToHour = () => {
+            const [times,toTimes]=React.useState(0);
+            const [inverted, setInverted] = React.useState(false);
+            const onChange = (event) => {
+                toTimes(event.target.value);
+            };
+            const reset = () => toTimes(0);
+    
+            const invert = () => {
+                reset();
+                setInverted((current)=>!current);
+            };
+            return(
+                <div>
+                    <h3>분/시 변환기</h3>
+                    <div>
+                    <label htmlFor="minute">분: </label> 
+                    <input 
+                        onChange={onChange} 
+                        type="number" 
+                        id="minute" 
+                        placeholder="Minutes"
+                        value={inverted ? times * 60 : times }
+                        disabled={inverted} //invertes 초기값은 false인데 minutes는 true일때만 disabled 즉 초기상태는 활성화
+                    />
+                </div>
+                <div>
+                    <label htmlFor="hour">시: </label>
+                    <input 
+                        onChange={onChange} 
+                        type="number" 
+                        id="hour" 
+                        placeholder="Hours"
+                        value={inverted ? times : Math.round(times / 60)}
+                        disabled={!inverted} //inverted가 false면 hours는 disabled(비활성화)
+                    />
+                </div>
+                <br />
+                <div>
+                    <Button text="리셋" action={reset} boolean={true}></Button>
+                    <Button text={inverted? "시=>분":"분=>시"} action={invert} boolean={false}></Button>
+                </div>
+                </div>
+            );
+        };
+        const KiloToMile = () => {
+            const [speed,toSpeed]=React.useState(0);
+            const [Invert, setInverted] = React.useState(false);
+
+            const onChange = (event) => {
+                toSpeed(event.target.value);
+            };
+            const reset = () => toSpeed(0);
+    
+            const invert = () => {
+                reset();
+                setInverted((current)=> !current);
+            };
+            return(
+                <div>
+                    <h3>킬로미터/마일 변환기</h3>
+                    <div>
+                        <label htmlFor="kilo">킬로미터: </label> 
+                        <input 
+                            onChange={onChange} 
+                            type="number" 
+                            id="kilo" 
+                            placeholder="Kilo"
+                            value={Invert ?speed * 1.609 : speed }
+                            disabled={Invert} 
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="mile">마일: </label>
+                        <input 
+                            onChange={onChange} 
+                            type="number" 
+                            id="mile" 
+                            placeholder="Mile"
+                            value={Invert ? speed : speed / 1.609 }
+                            disabled={!Invert}
+                        />
+                    </div>
+                    <br />
+                    <div>
+                        <Button text="리셋" action={reset} boolean={true}></Button>
+                        <Button text={Invert?"마일=>킬로미터":"킬로미터=>마일"} action={invert} boolean={false}></Button>
+                    </div>
+                </div>
+            );
+        };
+        const App = () => {
+        const [select,toSelect]=React.useState("0");
+        const onSelect = (event) => {
+            toSelect(event.target.value);
+        };
+
+        return (
+            <div>
+                <h1>변환기</h1>
+                
+                <select onChange={onSelect}>
+                  <option value="0">분/시 변환기</option>
+                  <option value="1">킬로미터/마일 변환기</option>
+                </select>
+                <hr></hr>
+                {select === "0" ? <MinuteToHour/> : null}
+                {select === "1" ? <KiloToMile/> : null}
+                
+           </div>
+        );
+
+    };
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+    </script>
+</html>
