@@ -100,7 +100,7 @@
 					</div>
 					<div>
 						<label >마일: </label>
-						<input style={{margin : "0px 0px 0px 32px"}} placeholder="Mile" type="number" value={inverted ? kilo : Math.round(kilo / 1.609)} onChange={onChange}
+						<input style={{margin : "0px 0px 0px 32px"}} placeholder="Mile" type="number" value={inverted ? kilo : kilo / 1.609} onChange={onChange}
                         disabled={!inverted}/>
 					</div>
 					<br />
