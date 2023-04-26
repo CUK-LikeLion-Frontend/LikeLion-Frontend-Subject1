@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+		function App() {
+			const [amount, setAmount] = React.useState(0); //입력값
+			const [inverted, setInverted] = React.useState(false); //변환할지말지
+ 
+			const onInvert = () => { //변환할때 초기화 하고 변환
+				reset();
+				setInverted((current) => !current);
+			};
+
+			const reset = () => {  //입력값 리셋
+				setAmount(0);
+			};
+
+			const onChange = (e) => {
+				//input에 사용자가 입력하는 값
+				setAmount(event.target.value);
+			};
+
+			return (
+				<div>
+					<h3>Mins/Hours Converter</h3> 
+					<div>
+						<label>Minutes : </label> 
+						<input 
+						//invert계산 값에서 바로 진행 
+						value={inverted ? amount * 60 : amount} //삼항연산자 사용 invert true일 때
+						type="number"
+						onChange={onChange}
+						disabled={inverted}
+						/>
+						
+					</div>
+					<div>
+						<label>Hours : </label>
+						<input 
+						value={inverted ? amount : Math.round(amount / 60)} //math round 반올림
+						type="number" 
+						onChange={onChange}
+						disabled={!inverted}
+						/>
+					</div>
+					
+					<br />
+					<div>
+						<button onClick={reset}>Reset</button>
+						<button onClick={onInvert}>{inverted ? "min => hour" : "hour => min"}</button>  
+					</div>
+				</div>
+			);
+		}
+		ReactDOM.render(<App />, root);
+	</script>
+</html>
