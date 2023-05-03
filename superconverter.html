@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<div id="root"></div>
+	</body>
+	<script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+	<script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+		function Button(props) {
+		return (
+			<button
+			style={{
+				backgroundColor: props.bgColor,
+				color: "white",
+				height: "30px",
+				border: "none",
+				borderRadius: "3px",
+				marginRight: "5px",
+			}}
+			onClick={props.onClick}
+			>
+			{props.text}
+			</button>
+		);
+		}
+        function MinToHour() {
+            const [inverted, setInverted] = React.useState(false);
+			const [hours, setHours] = React.useState(0);
+			const [minutes, setMinutes] = React.useState(0);
+			
+			const reset = () => {
+				setHours(0);
+				setMinutes(0);
+			};
+			
+			const invert = () => {
+				reset();
+				setInverted(!inverted);
+			};
+			
+			const handleHoursChange = (num) => {
+				const hours = parseFloat(num.target.value);
+				const minutes = hours * 60;
+				setHours(hours);
+				setMinutes(Math.round(minutes));
+			};
+			
+			const handleMinutesChange = (num) => {
+				const minutes = parseFloat(num.target.value);
+				let hours = 0;
+				if (minutes > 0) {
+					hours = Math.round(minutes / 60);
+				}
+				setHours(Math.round(hours));
+				setMinutes(minutes);
+			};
+			
+			return (
+				<div>
+					<h3>분/시 변환기</h3>
+					<div>
+						<label>분: </label>
+						<input 
+						value= {minutes}
+						onChange={handleMinutesChange} 
+						type="number" step="0.01" disabled={inverted}/>
+					</div>
+					<div>
+						<label>시: </label>
+						<input 
+						value={hours} 
+						onChange={handleHoursChange} 
+						type="number" step="0.01" disabled={!inverted} />
+					</div>
+					<div>
+						<Button text="reset" bgColor="tomato" onClick={reset} />
+						<Button
+							text={inverted ? '시=>분' : '분=>시'}
+							bgColor="#CCCCFF"
+							onClick={invert} 
+						/>	
+					</div>
+				</div>
+			);
+        }
+		function KmToMile() {
+			const [inverted, setInverted] = React.useState(false);
+			const [mile, setMile] = React.useState(0);
+			const [kilo, setKilo] = React.useState(0);
+			
+			const reset = () => {
+				setMile(0);
+				setKilo(0);
+			};
+			
+			const invert = () => {
+				reset();
+				setInverted(!inverted);
+			};
+			
+			const handleMileChange = (num) => {
+				const mile = parseFloat(num.target.value);
+				const kilo = mile * 1.609;
+				setMile(mile);
+				setKilo(kilo);
+			};
+			
+			const handleKiloChange = (num) => {
+				const kilo = parseFloat(num.target.value);
+                const mile = kilo*0.621;
+                setKilo(kilo);
+				setMile(mile);
+			};
+			
+			return (
+				<div>
+					<h3>킬로미터/마일 변환기</h3>
+					<div>
+						<label>킬로미터: </label>
+						<input 
+						value= {kilo}
+						onChange={handleKiloChange} 
+						type="number" step="0.01" disabled={inverted}/>
+					</div>
+					<div>
+						<label>마일: </label>
+						<input 
+						value={mile} 
+						onChange={handleMileChange} 
+						type="number" step="0.01" disabled={!inverted} />
+					</div>
+					<br />
+					<div>
+						<Button
+							text="reset"
+							bgColor= "tomato"
+							onClick={reset}
+							 />
+						<Button
+							text={inverted ? '마일=>킬로미터' : '킬로미터=>마일'}
+							bgColor= "#CCCCFF"
+							onClick={invert}
+							 />
+					</div>
+					<br />
+				</div>
+			);
+		}
+		function App() {
+			const [index, setIndex] = React.useState("0");
+			const onSelect = (event) => {
+				setIndex(event.target.value);
+			};
+            return (
+				<div>
+					<h1>변환기</h1>
+					<select value={index} onChange={onSelect}>
+						<option value="0">분/시 변환기</option>
+						<option value="1">킬로미터/마일 변환기</option>
+					</select>
+					<hr />
+					{index === "0" ? <MinToHour /> : null}
+					{index === "1" ? <KmToMile /> : null} 
+				</div>
+				);
+		}
+		const root = document.getElementById('root');
+		ReactDOM.render(<App />, root);
+	</script>
+</html>
